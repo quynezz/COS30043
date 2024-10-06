@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form Web App</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+      crossorigin="anonymous"
+    />
+    <style>
+      .form-group {
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container my-5">
+        <h1 class="text-center mb-5">Registration App: Cloud Service</h1>
+        <form>
+          <div class="form-group">
+            <label for="userName">Username:</label>
+            <input type="text" class="form-control" id="userName" v-model="userName" />
+          </div>
+          <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" v-model="password" />
+          </div>
+          <div class="form-group">
+            <label for="password2">Confirm Password:</label>
+            <input type="password" class="form-control" id="password2" v-model="password2" />
+            <div class="text-danger" v-if="password2 !== password">Password does not match</div>
+          </div>
+          <div class="form-group">
+            <h3>Operating System:</h3>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="os" id="os-android" value="Android" v-model="phone.os" checked>
+              <label class="form-check-label" for="os-android">Android</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="os" id="os-ios" value="IOS" v-model="phone.os">
+              <label class="form-check-label" for="os-ios">iOS</label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="os" id="os-windows" value="Windows" v-model="phone.os">
+              <label class="form-check-label" for="os-windows">Windows</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phoneModel">Phone Model:</label>
+            <select class="form-control" id="phoneModel" v-model="phone.model">
+              <option v-for="phoneModel in phones" :value="phoneModel.model">{{ phoneModel.model }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <h3>Summary</h3>
+            <ul>
+              <li>Username: {{ userName }}</li>
+              <li>OS: {{ phone.os }}</li>
+              <li>Phone: {{ phone.model }}</li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+      Vue.createApp({
+        data() {
+          return {
+            userName: "",
+            password: "",
+            password2: "",
+            phone: { model: "", os: "Android" },
+            dataSet: [
+              { model: "HTC 10", os: "Android" },
+              { model: "Nokia 6", os: "Android" },
+              { model: "Samsung Galaxy 20 Ultra", os: "Android" },
+              { model: "IDD VIOS Non Windows", os: "Android" },
+              { model: "iPhone X", os: "IOS" },
+              { model: "iPhone Xs Max", os: "IOS" },
+              { model: "iPhone 11 Pro Max", os: "IOS" },
+              { model: "IDD Windows Non Android", os: "IOS" },
+              { model: "HP Elite x3", os: "Windows" },
+              { model: "Microsoft 950", os: "Windows" },
+              { model: "Microsoft 950XL", os: "Windows" },
+              { model: "IDD VIOS Non Android", os: "Windows" },
+            ],
+          };
+        },
+        computed: {
+          phones: function () {
+            return this.dataSet.filter((phone) =>
+              phone.os.match(this.phone.os)
+            );
+          },
+        },
+      }).mount("#app");
+    </script>
+  </body>
+</html>
